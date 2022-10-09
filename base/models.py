@@ -3,8 +3,6 @@ from django.utils.translation import gettext as _
 from django.contrib.auth.models import AbstractBaseUser,PermissionsMixin
 from django.utils import timezone
 
-import uuid
-
 from . import validators
 from . import managers
 

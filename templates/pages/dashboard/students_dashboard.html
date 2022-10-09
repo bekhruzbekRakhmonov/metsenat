@@ -18,6 +18,9 @@ Students
 </form>
 {% endblock %}
 {% block tabcontent %}
+<div style="margin-left: 1200px;">
+    <a href="{% url 'dashboard-student-creation' %}"><button class="btn btn-outline-primary">Add student</button></a>
+</div>
 <div class="row align-items-center w-100 ">
     <div class="col">#</div>
     <div class="col" style="display: flex;margin-left: -50px;min-width: 235px;max-width: 300px;">Full Name</div>

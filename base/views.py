@@ -182,7 +182,9 @@ class StudentDetailView(LoginRequiredMixin,generic.DetailView):
         del student["_state"]
         student_id = student.pop("id")
         context["change_form"] = forms.StudentChangeForm(initial=student)
-        context["sponsors"] = models.TransactionTracker.get_sponsors(student_id=student_id)
+        # context["sponsors"] = models.TransactionTracker.get_sponsors(student_id=student_id)
+        context["transactions"] = models.TransactionTracker.objects.filter(
+                    student__id=student_id)
         return context
 
 class StudentEditView(LoginRequiredMixin,generic.UpdateView):
