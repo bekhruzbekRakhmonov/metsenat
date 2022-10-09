@@ -1,0 +1,85 @@
+{% extends "pages/dashboard/dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block dashboard_title %}
+Students
+{% endblock %}
+{% block filter_form %}
+<form method="post">
+    {% csrf_token %}
+    <div class="modal-body">
+        {{ filter_form|crispy }}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Show results</button>
+    </div>
+</form>
+{% endblock %}
+{% block tabcontent %}
+<div class="row align-items-center w-100 ">
+    <div class="col">#</div>
+    <div class="col" style="display: flex;margin-left: -50px;min-width: 235px;max-width: 300px;">Full Name</div>
+    <div class="col">Phone Number</div>
+    <div class="col">Fee Amount</div>
+    <div class="col">Date</div>
+    <div class="col">College</div>
+    <div class="col">Degree</div>
+</div>
+<br>
+{% for student in page_obj %}
+<div class="row bg-white align-items-center border-rounded w-100"
+    style="min-height: 55px;border-radius: 10px;">
+    <div class="col"><b>{{forloop.counter}}</b></div>
+    <a href="{% url 'dashboard-student-detail' student.pk %}" style="color: black;"><div class="col" style="display: flex;margin-left: -120px;min-width: 300px;max-width: 300px;"><b>{{student.fullname}}</b></div></a>
+    <div class="col"><b>{{student.phone}}</b></div>
+    <div class="col"><span>{{student.tution_fee|parse_money}}<i>UZS</i><span></div>
+    <div class="col">{{student.created_at}}</div>
+    <div class="col">{{student.college}}</div>
+    <div class="col">{{student.degree}}</div>
+</div>
+<br>
+{% endfor %}
+<div class="pagination">
+    <span class="step-links">
+        <span class="current">
+            Page {{ page_obj.number }} of
+            {{page_obj.paginator.num_pages}}.
+        </span>
+    </span>
+</div>
+<ul class="pagination">
+    {% if page_obj.has_previous %}
+    <li class="page-item">
+        <a class="page-link" href="?page=1#org-sponsors">&laquo;
+            first</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link"
+            href="?page={{page_obj.previous_page_number}}#org-sponsors"
+            aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+        </a>
+    </li>
+    {% endif %}
+    {% for num_page in page_obj.paginator.num_pages|range_pages %}
+    <li class="page-item"><a class="page-link"
+            href="?page={{num_page}}#org-sponsors">{{num_page}}</a></li>
+    {% endfor %}
+    {% if page_obj.has_next %}
+    <li class="page-item">
+        <a class="page-link" aria-label="Next"
+            href="?page={{page_obj.next_page_number }}#org-sponsors"><span
+                aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span></a>
+    </li>
+    <li class="page-item">
+        <a class="page-link"
+            href="?page={{page_obj.paginator.num_pages}}#org-sponsors">last
+            &raquo;</a>
+    </li>
+    {% endif %}
+</ul>
+{% endblock %}

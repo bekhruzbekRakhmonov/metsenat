@@ -1,0 +1,73 @@
+{% extends "pages/dashboard/dashboard.html" %}
+{% load custom_tags %}
+
+{% block dashboard_title %}
+Statistics
+{% endblock %}
+{% block tabcontent %}
+<div class="row" style="width: 650px;">
+	<div class="col card d-flex align-items-center" style="margin-left: -50px; border: 0;">
+		<p>Total paid fees</p>
+		<b>{{paid_fees|parse_money}} <i>UZS</i></b>
+	</div>
+	<div class="col card d-flex align-items-center" style="margin-left: 50px; border: 0;">
+		<p>Total fees</p>
+		<b>{{total_fees|parse_money}} <i>UZS</i></b>
+	</div>
+	<div class="col card d-flex align-items-center" style="margin-right: -50px;margin-left: 50px; border: 0;">
+		<p>Total unpaid fees</p>
+		<b>{{unpaid_fees|parse_money}} <i>UZS</i></b>
+	</div>
+</div>
+<br>
+<div class="card" style="width: 750px;height: 380px; border: 0;">
+	<canvas id="myChart"></canvas>
+</div>
+{% endblock %}
+{% block tabcontent_scripts %}
+<script>
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  const data = {
+    labels: labels,
+    datasets: [
+	    {
+	      label: 'Sponsors',
+	      backgroundColor: 'rgb(255, 99, 132)',
+	      borderColor: 'rgb(255, 99, 132)',
+	      data: {{sponsors}},
+	    },
+	    {
+	      label: 'Students',
+	      backgroundColor: 'rgb(255, 199, 132)',
+	      borderColor: 'rgb(255, 199, 132)',
+	      data: {{students}},
+	    }
+    ]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+</script>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "pages/dashboard/dashboard.html" %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+
+{% block tabcontent_nav %}
+<nav class="navbar navbar-light bg-white">
+	<ul class="nav nav-pills nav-justified mr-auto"
+            id="ex1"
+            role="tablist">
+        <li class="nav-item">
+			<a href="#back" style="font-weight: 900;">back</a>
+		</li>
+		<li class="nav-item" style="margin-left: 30px;">
+			<span class="navbar-brand mb-0 h1">{{sponsor.fullname}}</span>
+		</li>
+	</ul>
+</nav>
+{% endblock %}
+{% block tabcontent %}
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="studentEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Student Change Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post">
+      	{% csrf_token %}
+	      <div class="modal-body">
+	        	{{ change_form|crispy }}
+	      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save changes</button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<div class="card w-50" style="border: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;">
+  <div>
+		<a href="#" data-toggle="modal" data-target="#studentEditModal">
+		  Edit
+		</a>
+		<div>
+			<br>
+			<span style="font-weight: 300;">Payment Amount</span>
+			<br>
+			<b style="font-weight: 600;">{{sponsor.payment_amount|parse_money}}</b>
+		</div>
+	</div>
+	<div style="font-weight: 300;">
+		<div>
+			<b style="font-weight: 600;">{{sponsor.fullname}}</b>
+		</div>
+		<div>
+			<br>
+			<span style="font-weight: 300;">Phone</span>
+			<br>
+			<b style="font-weight: 600;">{{sponsor.phone}}</b>
+		</div>
+		{% if sponsor.is_org %}
+		<div>
+			<br>
+			<span style="font-weight: 300;">Organisation</span>
+			<br>
+			<b style="font-weight: 600;">{{sponsor.org_name}}</b>
+		</div>
+		{% else %}
+		<div>
+			<br>
+			<span style="font-weight: 300;">Organisation</span>
+			<br>
+			<b style="font-weight: 600;">No Organisation</b>
+		</div>
+		{% endif %}
+		<div>
+			<br>
+			<span style="font-weight: 300;">Status</span>
+			<br>
+	        {% if sponsor.status == "pending" %}
+	        <span style="color: gray;"><b>{{sponsor.status}}</b></span>
+	        {% elif sponsor.status == "verified" %}
+	        <span style="color: green;"><b>{{sponsor.status}}</b></span>
+	        {% elif sponsor.status == "new" %}
+	        <span style="color: rgb(19, 60, 245);"><b>{{sponsor.status}}</b></span>
+	        {% elif sponsor.status == "rejected" %}
+	        <span style="color: rgb(230, 10, 10);"><b>{{sponsor.status}}</b></span>
+	        {% endif %}
+		</div>
+	</div>
+</div>
+{% include "pages/dashboard/transactions.html" with transactions=transactions %}
+{% endblock %}

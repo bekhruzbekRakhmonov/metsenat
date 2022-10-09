@@ -1,0 +1,20 @@
+.nav-item {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  cursor: pointer;
+}
+.nav-item a {
+  width: max-content;
+}
+.filter {
+  color: grey;
+  cursor: pointer;
+}
+.filter::hover{
+  color: blue;
+  background-color: blue;
+}
+b, strong {
+  font-weight: 600;
+}
