@@ -197,10 +197,8 @@ class TransactionTracker(models.Model):
                 self.sponsor.save()
                 self.student.unpaid_tution_fee = self.student.unpaid_tution_fee - self.amount
                 self.student.save()
-                print(":=> KELDI")
                 return True
             except IntegrityError:
-                print(":=> KELDI")
                 transaction.rollback()
         return False
 
