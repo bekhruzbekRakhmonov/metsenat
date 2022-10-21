@@ -163,7 +163,7 @@ class StudentCreationView(LoginRequiredMixin,generic.CreateView):
     model = models.Student
     fields = ["fullname","phone","degree","college","tution_fee"]
     template_name = "pages/dashboard/students/student_creation.html"
-    success_url = "/dashboard/"
+    success_url = reverse_lazy("dashboard")
 
     def form_valid(self,form):
         form.cleaned_data["unpaid_tution_fee"] = form.cleaned_data["tution_fee"]
